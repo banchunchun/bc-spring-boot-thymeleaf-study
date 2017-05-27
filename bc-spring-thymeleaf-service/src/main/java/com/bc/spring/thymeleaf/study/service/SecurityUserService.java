@@ -38,7 +38,6 @@ public class SecurityUserService implements UserDetailsService {
         Account account = accountService.queryAccount(username, SystemType.HR);
         if (null == account)
             return null;
-        Set<GrantedAuthority> authorities = new HashSet<>();
         Map<Integer, Power> ur = accountService.findSecurityUserPowerByName(username);
         // 这里添加的是用户可以操作的权限编号
         auths.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
