@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+        "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bc.spring.thymeleaf.study.common.mapper.account.MenuMapper">
+    <resultMap id="menu" type="com.bc.spring.thymeleaf.study.common.entity.account.Menu">
+        <result column="menu_id" property="menuId" />
+        <result column="menu_name" property="menuName" />
+        <result column="menu_url" property="menuUrl" />
+        <result column="level" property="level" />
+        <result column="status" property="status" />
+        <result column="sort" property="sort" />
+        <association property="pMenu" column="p_menu_id" javaType="com.bc.spring.thymeleaf.study.common.entity.account.Menu">
+            <id property="menuId" column="menu_id" />
+        </association>
+        <collection property="childMenus" column="menu_id" ofType="com.bc.spring.thymeleaf.study.common.entity.account.Menu" select="queryMenuByMenuId">
+        </collection>
+    </resultMap>
+
+    <resultMap id="power" type="com.bc.spring.thymeleaf.study.common.entity.account.Power">
+        <result column="power_id" property="powerId" />
+        <result column="power_type" property="powerType" />
+    </resultMap>
+
+    <resultMap id="powerMenu" type="com.bc.spring.thymeleaf.study.common.entity.account.Menu">
+        <result column="menu_id" property="menuId" />
+        <result column="menu_name" property="menuName" />
+        <result column="menu_url" property="menuUrl" />
+        <result column="level" property="level" />
+        <result column="status" property="status" />
+        <result column="sort" property="sort" />
+        <association property="pMenu" column="p_menu_id" javaType="com.bc.spring.thymeleaf.study.common.entity.account.Menu">
+            <id property="menuId" column="menu_id" />
+        </association>
+        <collection property="childMenus" column="{mid=menu_id,pid=power_id}" ofType="menuEntity" select="queryPowerMenuByMenuId">
+        </collection>
+    </resultMap>
+
+    <select id="innerSelectMenu" resultMap="menu" parameterType="Long">
+        select am.* from t_account_user_power aup
+        LEFT JOIN t_account_power ap
+        ON ap.power_id = aup.power_id
+        LEFT JOIN t_account_menu_power amp ON
+        amp.power_id = aup.power_id
+        LEFT JOIN t_account_menu am ON am.menu_id =
+        amp.menu_id
+        where ap.power_type=1 AND aup.account_id=#{userId}
+    </select>
+
+    <select id="queryMenuByPower" parameterType="int" resultMap="powerMenu">
+        select am.*,amp.power_id power_id from
+        hr_account_menu am
+        left join
+        hr_account_menu_power amp on
+        amp.menu_id = am.menu_id
+        where amp.power_id = #{powerId} and am.level =
+        1
+    </select>
+
+    <select id="queryPowerMenuByMenuId" parameterType="Map"
+            resultMap="menu">
+        select am.* from
+        hr_account_menu am
+        left join
+        hr_account_menu_power amp on
+        amp.menu_id = am.menu_id
+        where amp.power_id
+        = #{pid} and am.level =
+        2 and am.p_menu_id=#{mid}
+    </select>
+
+    <select id="queryMenuByMenuId" parameterType="int" resultMap="menu">
+        select am.* from hr_account_menu am where p_menu_id = #{powerId}
+    </select>
+
+
+    <!-- 插入权限表 -->
+    <insert id="insertPower" parameterType="com.bc.spring.thymeleaf.study.common.entity.account.Power"  keyProperty="powerId">
+        <selectKey resultType="java.lang.Integer" order="AFTER"
+                   keyProperty="powerId">
+            SELECT LAST_INSERT_ID() AS powerId
+        </selectKey>
+        INSERT INTO hr_account_power(power_type) VALUES ( #{powerType} )
+
+    </insert>
+    <!-- 插入用户权限中间表 -->
+    <insert id="insertAccountPower" parameterType="java.util.HashMap">
+        INSERT INTO
+        hr_account_user_power(account_id, power_id ) VALUES (#{accountId},
+        #{powerId})
+    </insert>
+    <!-- 插入菜单权限中间表 -->
+    <insert id="addMenuPower" parameterType="java.util.HashMap">
+        INSERT INTO hr_account_menu_power (menu_id, power_id) VALUES
+        <foreach collection="menuIds" item="menuId" index="index" separator=",">
+            (#{menuId}, #{powerId})
+        </foreach>
+    </insert>
+
+    <!-- 删除菜单权限中间表 -->
+    <delete id="removePowerMenu" parameterType="java.util.HashMap">
+        DELETE FROM hr_account_menu_power WHERE power_id = #{powerId} AND
+        menu_id in (
+        <foreach collection="menuIds" item="menuId" index="index" separator=",">
+            #{menuId}
+        </foreach>
+        )
+    </delete>
+
+    <!-- 插入操作权限中间表 -->
+    <insert id="addOperatePower" parameterType="java.util.HashMap">
+        INSERT INTO hr_account_menu_power (operate_id, power_id) VALUES
+        <foreach collection="operateIds" item="operateId" index="index" separator=",">
+            (#{operateId} , #{powerId})
+        </foreach>
+    </insert>
+    <!-- 插入菜单权限中间表 -->
+    <insert id="insertPowerMenu" parameterType="java.util.HashMap">
+        INSERT INTO hr_account_menu_power (menu_id, power_id) VALUES
+        <foreach collection="menuIds" item="menuId" index="index" separator=",">
+            (#{menuId}, #{powerId})
+        </foreach>
+    </insert>
+    <!-- 删除操作权限中间表 -->
+    <delete id="removePowerOperate" parameterType="java.util.HashMap">
+        DELETE FROM hr_account_menu_power WHERE power_id = #{powerId} AND
+        operate_id in (
+        <foreach collection="operateIds" item="operateId" index="index" separator=",">
+            #{id}
+        </foreach>
+        )
+    </delete>
+
+    <!--根据用户名查询该账户权限-->
+    <select id="selectSecurityUserPowerByName" resultMap="power"  parameterType="java.lang.String">
+        select
+        ap.power_type, ap.power_id
+        from hr_account u
+        LEFT
+        JOIN hr_account_user_power aup on aup.account_id = u.user_id
+        LEFT JOIN
+        hr_account_power ap on ap.power_id = aup.power_id
+        where u.user_name = #{userName}
+    </select>
+
+
+    <!-- 根据系统类型，获取可供分配的所有权限列表 -->
+    <select id="getTwoLevelMenuForAllocation" parameterType="java.util.HashMap" resultMap="menu">
+        select am.menu_id,am.menu_name,am.status,am.level from
+        hr_account_menu am
+        where 1 = 1
+        and am.sys_type = #{sysCode}
+        and am.level = ${level}
+        order by menu_id
+    </select>
+
+    <!--根据账户，获取该账户所有的菜单列表-->
+    <select id="getMenuForAccount" parameterType="java.util.Map" resultMap="menu">
+        SELECT
+            amp.menu_id
+        FROM
+            hr_account_user_power up
+        LEFT JOIN hr_account_power ap ON ap.power_id = up.power_id
+        LEFT JOIN hr_account_menu_power amp ON amp.power_id = ap.power_id
+        WHERE
+            up.account_id = #{userId}
+        AND power_type = 1
+    </select>
+    <!--查询菜单列表-->
+    <select id="queryMenuList4Page" parameterType="java.util.Map" resultType="java.util.Map">
+        SELECT
+			menu_id AS menuId,
+			p_menu_id AS pMenuId,
+			menu_url AS menuUrl,
+			menu_name AS menuName,
+			`level` AS level,
+			sort AS sort,
+			CONCAT(status,'') AS status,
+			CONCAT(sys_type,'') as sysType
+		FROM
+			hr_account_menu
+		WHERE
+          `LEVEL` = #{level} and
+        <choose>
+            <when test="pMenuId == null">
+                p_menu_id is null
+            </when>
+            <otherwise>
+                p_menu_id = #{pMenuId}
+            </otherwise>
+        </choose>
+        LIMIT #{start},#{limit}
+    </select>
+    <select id="queryMenuListCount4Page" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+          COUNT(1)
+        FROM
+        hr_account_menu
+        WHERE
+        `LEVEL` = #{level} and
+        <choose>
+            <when test="pMenuId == null">
+                p_menu_id is null
+            </when>
+            <otherwise>
+                p_menu_id = #{pMenuId}
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insertAccountMenu" parameterType="com.bc.spring.thymeleaf.study.common.entity.account.Menu" useGeneratedKeys="true" keyColumn="menu_id" keyProperty="menuId" >
+        INSERT INTO hr_account_menu (
+        p_menu_id,
+        menu_url,
+        menu_name,
+        LEVEL,
+        sort,
+        STATUS,
+        sys_type
+        )
+        VALUES
+        (
+        #{pMenu.menuId},
+        #{menuUrl},
+        #{menuName},
+        #{level},
+        #{sort},
+        #{status},
+        #{sysType,typeHandler=com.bc.spring.thymeleaf.study.common.framework.SystemTypeHandler}
+        )
+    </insert>
+
+    <!--删除菜单-->
+    <delete id="deleteMenuById" parameterType="java.lang.Integer">
+        delete from hr_account_menu where menu_id = #{menuId} or p_menu_id = #{menuId}
+    </delete>
+    <delete id="deleteMenuPowerById" parameterType="java.lang.Integer">
+        DELETE FROM hr_account_menu_power WHERE menu_id = #{menuId}
+    </delete>
+</mapper>

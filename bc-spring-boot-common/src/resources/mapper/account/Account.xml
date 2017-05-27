@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC
+		"-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bc.spring.thymeleaf.study.common.mapper.account.AccountMapper">
+
+	<resultMap id="account" type="com.bc.spring.thymeleaf.study.common.entity.account.Account">
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="real_name" property="realName" />
+		<result column="user_pwd" property="userPwd" />
+		<result column="available" property="available" />
+		<result column="role_type" property="roleType" typeHandler="com.bc.spring.thymeleaf.study.common.framework.RoleTypeHandler" />
+		<result column="job" property="job" />
+		<result column="create_time" property="createTime" />
+		<result column="modify_time" property="modifyTime" />
+		<collection property="myTopMenu" ofType="com.bc.spring.thymeleaf.study.common.entity.account.Menu">
+			<result column="menu_id" property="menuId" />
+			<result column="menu_name" property="menuName" />
+			<result column="level" property="level" />
+		</collection>
+	</resultMap>
+	<resultMap id="subAccountMap" type="com.bc.spring.thymeleaf.study.common.entity.account.Account">
+		<result column="user_id" property="userId" />
+		<result column="user_name" property="userName" />
+		<result column="real_name" property="realName" />
+		<result column="user_pwd" property="userPwd" />
+		<result column="available" property="available" />
+		<result column="role_type" property="roleType" typeHandler="com.bc.spring.thymeleaf.study.common.framework.RoleTypeHandler" />
+		<result column="job" property="job" />
+		<result column="create_time" property="createTime" />
+		<result column="modify_time" property="modifyTime" />
+		<collection property="myTopMenu" column="user_id" select="com.mamahao.hr.common.mapper.account.MenuMapper.innerSelectMenu">
+		</collection>
+	</resultMap>
+
+
+
+	<!--修改账户信息-->
+	<update id="updateAccount" parameterType="com.bc.spring.thymeleaf.study.common.entity.account.Account">
+		update hr_account
+		<set>
+			<if test="realName != null">
+				real_name = #{realName},
+			</if>
+			<if test="job != null">
+				job = #{job},
+			</if>
+			<if test="userPwd != null and userPwd !=''">
+				user_pwd = #{userPwd},
+			</if>
+			<if test="modifyTime != null">
+				modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="lastLoginTime != null">
+				last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where user_id = #{userId}
+	</update>
+
+
+	<select id="queryAccount" parameterType="java.util.Map" resultMap="account">
+		select * from hr_account
+		where 1=1
+		<if test="available !=null">
+			AND available = #{available}
+		</if>
+
+		<if test="userName !=null and userName !=''">
+			AND user_name = #{userName}
+		</if>
+		<if test=" userId !=null ">
+			AND user_id = #{userId}
+		</if>
+		<if test="null != systemType">
+			<if test="systemType == 1">
+				AND (role_type = 1 or role_type = 2)
+			</if>
+			<if test="systemType == 2">
+				AND (role_type = 3 or role_type = 4)
+			</if>
+			<if test="systemType==4">
+				AND (role_type = 6 or role_type = 7)
+			</if>
+		</if>
+
+	</select>
+
+	<!-- 添加用户信息 -->
+	<insert id="addAccount" parameterType="com.bc.spring.thymeleaf.study.common.entity.account.Account"
+		useGeneratedKeys="true" keyProperty="userId">
+		insert into hr_account(
+		user_name,real_name,user_pwd,job,role_type,available,create_time
+		) values(
+		#{userName},
+		#{realName},
+		#{userPwd},
+		#{job},
+		#{roleType, typeHandler=com.mamahao.hr.common.framework.mybatis.RoleTypeHandler},
+		<choose>
+			<when test="available!=null and available==false">
+				0,
+			</when>
+			<otherwise>1,</otherwise>
+		</choose>
+		now()
+		)
+	</insert>
+
+	<select id="queryAccountByName" resultMap="account" parameterType="java.lang.String">
+		SELECT * FROM hr_account WHERE user_name = #{username}
+	</select>
+
+	<!--查询帐号列表-->
+	<select id="queryAccountList4Page" parameterType="java.util.Map" resultMap="account">
+		SELECT * FROM  hr_account
+		LIMIT #{start},#{limit}
+	</select>
+
+	<select id="queryAccountListCount4Page" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT count(1) FROM hr_account
+	</select>
+
+	<!-- 获取属于指定菜单得所有操作编号列表 -->
+	<select id="queryOperatesByMenuIds" parameterType="java.util.HashMap"
+			resultType="int">
+		select hamp.power_id
+		from hr_account_menu_power hamp
+		where hamp.menu_id in (
+		<foreach collection="menuIds" item="menuId" index="index" separator=",">
+			#{menuId}
+		</foreach>
+		)
+	</select>
+
+	<select id="queryPowerIdByUserName" parameterType="String" resultType="Integer">
+		SELECT
+		aup.power_id
+		FROM
+		hr_account_user_power aup
+		LEFT JOIN hr_account_power ap ON aup.power_id = ap.power_id
+		LEFT JOIN hr_account ta ON ta.user_id = aup.account_id
+		WHERE
+		ap.power_type = 1
+		AND ta.available = 1
+		AND ta.user_name = #{useName}
+	</select>
+
+</mapper>

@@ -32,5 +32,8 @@
             <artifactId>bc-feign-extension-starter-vo</artifactId>
             <version>${bc.ebiz.cloud.feign.version}</version>
         </dependency>
+
+
+
     </dependencies>
 </project>

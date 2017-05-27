@@ -22,4 +22,10 @@ public class ThymeleafController {
         model.addAttribute("name","banchun");
         return "index";
     }
+
+    @RequestMapping("/home")
+    public String home(Model model){
+        model.addAttribute("name","banchun");
+        return "home";
+    }
 }

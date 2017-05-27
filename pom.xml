@@ -42,6 +42,8 @@
             <artifactId>fastjson</artifactId>
             <version>${alibaba-fastjson.version}</version>
         </dependency>
+
+        
     </dependencies>
     <dependencyManagement>
         <dependencies>
