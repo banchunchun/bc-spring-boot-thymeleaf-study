@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>bc-spring-boot-thymeleaf-study</artifactId>
+        <groupId>com.bc.spring.thymeleaf.study</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>bc-spring-thymeleaf-service</artifactId>
+    <version>1.0.2</version>
+    <packaging>jar</packaging>
+
+    <name>bc-spring-thymeleaf-service</name>
+    <url>http://maven.apache.org</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <bc-spring-boot-common.version>1.0.2</bc-spring-boot-common.version>
+        <bc.ebiz.cloud.feign.version>1.0-SNAPSHOT</bc.ebiz.cloud.feign.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.bc.spring.thymeleaf.study</groupId>
+            <artifactId>bc-spring-boot-common</artifactId>
+            <version>${bc-spring-boot-common.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.bc.cloud.feign</groupId>
+            <artifactId>bc-feign-extension-starter-vo</artifactId>
+            <version>${bc.ebiz.cloud.feign.version}</version>
+        </dependency>
+    </dependencies>
+</project>

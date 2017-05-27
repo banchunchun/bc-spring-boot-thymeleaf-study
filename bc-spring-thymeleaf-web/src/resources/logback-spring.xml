@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="1 minutes" >
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+	<logger name="org.springframework" level="INFO" />
+	<logger name="org.springframework.jdbc" level="ERROR" />
+	<logger name="org.apache" level="ERROR" />
+	<logger name="io.netty" level="ERROR" />
+	<logger name="com.google.code" level="ERROR" />
+	<logger name="net.rubyeye.xmemcached" level="ERROR" />
+	<logger name="com.mchange" level="ERROR" />
+	<logger name="httpclient.wire.content" level="ERROR"/>
+	<logger name="httpclient.wire.header" level="ERROR"/>
+	<logger name="org.apache.commons.httpclient" level="ERROR"/>
+	<logger name="org.mybatis" level="ERROR" />
+	<logger name="org.mongodb.driver.cluster" level="ERROR" />
+	<logger name="javax.persistence" level="DEBUG" />
+	<logger name="com.mamahao" level="DEBUG" />
+
+	<springProfile name="local,dev,test,st">
+		<root level="DEBUG">
+			<appender-ref ref="CONSOLE" />
+		</root>
+	</springProfile>
+
+	<springProfile name="pre,pro">
+		<root level="WARN">
+			<appender-ref ref="CONSOLE"/>
+			<appender-ref ref="kafkaAppender" />
+		</root>
+	</springProfile>
+</configuration>

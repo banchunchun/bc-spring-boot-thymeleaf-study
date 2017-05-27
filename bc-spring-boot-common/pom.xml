@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>bc-spring-boot-thymeleaf-study</artifactId>
+        <groupId>com.bc.spring.thymeleaf.study</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>bc-spring-boot-common</artifactId>
+    <version>1.0.2</version>
+    <packaging>jar</packaging>
+
+    <name>bc-spring-boot-common</name>
+    <url>http://maven.apache.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper</artifactId>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>mysql</groupId>-->
+        <!--<artifactId>mysql-connector-java</artifactId>-->
+        <!--<version>5.1.37</version>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+        <!--<groupId>com.alibaba</groupId>-->
+        <!--<artifactId>druid</artifactId>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+        <!--<groupId>com.mamahao.data.framework</groupId>-->
+        <!--<artifactId>mamahao-data-framework-mybatis</artifactId>-->
+        <!--</dependency>-->
+        <dependency>
+            <groupId>org.spring.data.framework</groupId>
+            <artifactId>bc-spring-data-framework-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.spring.data.framework</groupId>
+            <artifactId>bc-spring-data-framework-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.spring.data.framework</groupId>
+            <artifactId>bc-spring-data-framework-mongodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.spring.data.framework</groupId>
+            <artifactId>bc-spring-data-framework-memcache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.spring.data.framework</groupId>
+            <artifactId>bc-spring-data-framework-memcache</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
