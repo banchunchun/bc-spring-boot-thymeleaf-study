@@ -6,6 +6,16 @@ spring:
       force: true
       charset: UTF-8
       enabled: true
+
+##配置thymeleaf 模板
+  thymeleaf:
+    mode: HTML5
+    cache: false  #开发时把缓存关闭，不然无法实时看见效果
+    encoding: UTF-8
+    content-type: text/html
+
+
+
 server:
   port: 8882
   context-path: /user
@@ -27,5 +37,6 @@ eureka:
   instance:
     metadata-map:
       cluster: BC-SPRING-THYMELEAF
+
 
 

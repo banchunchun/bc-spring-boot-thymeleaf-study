@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>hi,my first thymeleaf</title>
+    <script th:src="@{/js/jQuery.js}"></script>
+</head>
+
+<body>
+
+<p th:text="${name}">Welcome to our grocery store!</p>
+
+<button id="click" > 登录</button>
+
+</body>
+
+<script>
+    $("#click").click(function () {
+        alert("hello");
+    });
+</script>
+
+</html>

@@ -1,4 +1,4 @@
-package com.bc.spring.thymeleaf.study.web.controller;
+package com.bc.spring.thymeleaf.study.web.controller.user;
 
 import com.alibaba.fastjson.JSON;
 import com.bc.spring.thymeleaf.study.common.entity.User;
