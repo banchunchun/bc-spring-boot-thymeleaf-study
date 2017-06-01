@@ -35,8 +35,10 @@ public class MyUser extends User {
 	
 
 	
-	private String realName; //真是姓名
+	private String realName; //真实姓名
 
+
+	private String salt;
 
 	/**
 	 * @return the realName
@@ -73,8 +75,9 @@ public class MyUser extends User {
 	 * @param credentialsNonExpired：true(证书没有过期),false(证书过期)
 	 * @param accountNonLocked：true(账号未锁定)，false(账号被锁定)
 	 */
-	public MyUser(Account account, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked){
+	public MyUser(Account account, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked,String salt){
 		super(account.getUserName(),account.getUserPwd(),enabled, accountNonExpired, credentialsNonExpired, accountNonLocked,new ArrayList<GrantedAuthority>());
+		this.salt = salt;
 	}
 	/**
 	 * @param account
@@ -138,5 +141,12 @@ public class MyUser extends User {
 		this.roleType = roleType;
 	}
 
-	
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
 }

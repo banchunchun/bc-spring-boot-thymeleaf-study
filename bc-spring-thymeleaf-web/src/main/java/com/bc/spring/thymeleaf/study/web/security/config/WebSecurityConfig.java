@@ -61,21 +61,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //指定密码加密所使用的加密器为passwordEncoder()
         //需要将密码加密后写入数据库
         //使用自定义权限校验器，自定义MD5PASSWORDENCODE 用户名目前取不到？ 回头需要着重看下。
-//        auth.authenticationProvider(myAuthenticationProvider);
-        auth.userDetailsService(securityUserService).passwordEncoder(new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence rawPassword) {
-                return new Md5PasswordEncoder().encodePassword(rawPassword.toString(), "username");
-
-            }
-
-            @Override
-            public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return new Md5PasswordEncoder().encodePassword(rawPassword.toString(),"username")
-                        .equals(encodedPassword);
-            }
-        });
-        auth.eraseCredentials(false);
+        auth.authenticationProvider(myAuthenticationProvider);
+//        auth.userDetailsService(securityUserService).passwordEncoder(new PasswordEncoder() {
+//            @Override
+//            public String encode(CharSequence rawPassword) {
+//                return new Md5PasswordEncoder().encodePassword(rawPassword.toString(), "username");
+//
+//            }
+//
+//            @Override
+//            public boolean matches(CharSequence rawPassword, String encodedPassword) {
+//                return encodedPassword.equals(MD5Util.encode((String)rawPassword));
+//            }
+//        });
+//        auth.eraseCredentials(false);
     }
 
     @Bean
