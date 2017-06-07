@@ -229,7 +229,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
     }
 }
 ```
-#### 配置自定义错误页面
+
 ```java
 /**
 	 * 自定义错误页面
