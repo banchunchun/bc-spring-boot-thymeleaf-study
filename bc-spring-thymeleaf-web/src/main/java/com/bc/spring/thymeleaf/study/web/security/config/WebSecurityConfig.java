@@ -1,17 +1,15 @@
 package com.bc.spring.thymeleaf.study.web.security.config;
 
 import com.bc.spring.thymeleaf.study.service.SecurityUserService;
-import com.bc.spring.thymeleaf.study.service.utils.Md5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,10 +28,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private MyAuthenticationProvider myAuthenticationProvider;
-    //http://localhost:8080/login 输入正确的用户名密码 并且选中remember-me 则登陆成功，转到 index页面
-    //再次访问index页面无需登录直接访问
-    //访问http://localhost:8080/home 不拦截，直接访问，
-    //访问http://localhost:8080/hello 需要登录验证后，且具备 “ADMIN”权限hasAuthority("ADMIN")才可以访问
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+
+        web.ignoring().antMatchers("/js/**","/css/**","/tool/**","/images/**","/fonts/**","/uploadify/**","/webim/**", "/captcha.do",
+                "/j_spring_security_check","im/service/**","/gb/goods/previewGoodsInfo.do**","union/**","alipay/**");
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

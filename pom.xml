@@ -61,11 +61,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--<dependency>-->
-            <!--<groupId>com.alibaba</groupId>-->
-            <!--<artifactId>druid</artifactId>-->
-            <!--<version>${alibaba-druid.version}</version>-->
-            <!--</dependency>-->
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>

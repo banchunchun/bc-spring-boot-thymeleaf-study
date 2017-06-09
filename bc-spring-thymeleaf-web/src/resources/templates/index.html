@@ -1,24 +1,7 @@
-<!DOCTYPE html>
-
-<html xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <title>hi,my first thymeleaf</title>
-    <script th:src="@{/js/jQuery.js}"></script>
-</head>
-
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorator="layout">
 <body>
-
-<p th:text="${name}">Welcome to our grocery store!</p>
-
-<button id="click" > 登录</button>
-
+<section layout:fragment="content">
+    sss
+</section>
 </body>
-
-<script>
-    $("#click").click(function () {
-        alert("hello");
-    });
-</script>
-
 </html>
