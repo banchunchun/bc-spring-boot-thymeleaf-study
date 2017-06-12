@@ -1,6 +1,9 @@
 package com.bc.spring.thymeleaf.study.web.controller.user;
 
 import com.alibaba.fastjson.JSON;
+import com.bc.logger.ILog;
+import com.bc.logger.LogBusinessModule;
+import com.bc.logger.LogFactory;
 import com.bc.spring.thymeleaf.study.common.entity.User;
 import com.bc.spring.thymeleaf.study.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,6 +28,8 @@ import java.io.IOException;
 @RestController
 public class UserController {
 
+    private ILog logger = LogFactory.getLog(UserController.class, LogBusinessModule.TRACE_LOG);
+
     @Autowired
     private UserService userService;
 
@@ -30,6 +37,7 @@ public class UserController {
     public String index(HttpServletRequest request, HttpServletResponse response, @PathVariable(name = "id") int id) throws IOException {
         User user = userService.findById(id);
 
+        logger.debug("index.{},now time:{}",id,new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         return JSON.toJSONString(user);
     }
 }

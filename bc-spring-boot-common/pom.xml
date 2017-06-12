@@ -104,6 +104,11 @@
             <artifactId>spring-security-taglibs</artifactId>
             <version>4.1.0.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.bc.logger</groupId>
+            <artifactId>bc-logger</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

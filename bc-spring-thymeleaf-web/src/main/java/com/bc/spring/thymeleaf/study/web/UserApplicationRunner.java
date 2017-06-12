@@ -1,5 +1,8 @@
 package com.bc.spring.thymeleaf.study.web;
 
+import com.bc.logger.ILog;
+import com.bc.logger.LogBusinessModule;
+import com.bc.logger.LogFactory;
 import com.bc.spring.thymeleaf.study.web.configuration.event.ApplicationListenerEnvironmentPrepared;
 import com.bc.spring.thymeleaf.study.web.configuration.event.ApplicationListenerFailed;
 import com.bc.spring.thymeleaf.study.web.configuration.event.ApplicationListenerPrepared;
@@ -43,7 +46,8 @@ import java.util.logging.Logger;
 @EnableHystrixDashboard
 public class UserApplicationRunner implements CommandLineRunner{
 
-    private static Logger logger = Logger.getLogger(UserApplicationRunner.class.getName());
+//    private static Logger logger = Logger.getLogger(UserApplicationRunner.class.getName());
+    private static ILog logger = LogFactory.getLog(UserApplicationRunner.class, LogBusinessModule.TRACE_LOG);
 
     public static void main(String[] args) {
         StopWatch watch = new StopWatch("UserServiceApp");
@@ -79,6 +83,6 @@ public class UserApplicationRunner implements CommandLineRunner{
 
     @Override
     public void run(String... strings) throws Exception {
-        logger.warning("******************************bc-ebiz-user startup******************************");
+        logger.warn("******************************bc-ebiz-user startup******************************");
     }
 }

@@ -1,7 +1,86 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorator="layout">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>welcome</title>
+
+<!-- BOOTSTRAP STYLES-->
+<link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
+<!-- FONTAWESOME STYLES-->
+<link th:href="@{/css/font-awesome.css}" rel="stylesheet"/>
+<!--CUSTOM BASIC STYLES-->
+<link th:href="@{/css/basic.css}" rel="stylesheet"/>
+<!--CUSTOM MAIN STYLES-->
+<link th:href="@{/css/custom.css}" rel="stylesheet"/>
+<!-- GOOGLE FONTS-->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'/>
+</head>
+
 <body>
-<section layout:fragment="content">
-    sss
-</section>
+<div id="wrapper">
+<nav class="navbar navbar-default navbar-cls-top " role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">COMPANY NAME</a>
+    </div>
+
+    <div class="header-right">
+
+        <a href="message-task.html" class="btn btn-info" title="New Message"><b>30 </b><i
+                class="fa fa-envelope-o fa-2x"></i></a>
+        <a href="message-task.html" class="btn btn-primary" title="New Task"><b>40 </b><i
+                class="fa fa-bars fa-2x"></i></a>
+        <a href="login.html" class="btn btn-danger" title="Logout"><i
+                class="fa fa-exclamation-circle fa-2x"></i></a>
+
+    </div>
+</nav>
+
+<!-- /. NAV TOP  -->
+<nav class="navbar-default navbar-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav" id="main-menu">
+            <li>
+                <div class="user-img-div">
+                    <img th:src="@{/images/user.png}" class="img-thumbnail"/>
+
+                    <div class="inner-text" th:text="${#httpServletRequest.getContextPath()}">
+                        Jhon Deo Alex
+                        <br/>
+                        <small>Last Login : 2 Weeks Ago</small>
+                    </div>
+                </div>
+
+            </li>
+
+
+            <li>
+                <a class="active-menu" href="index.html"><i class="fa fa-dashboard "></i>Dashboard</a>
+            </li>
+            <li th:each="menu : ${session.account.menus}">
+                <a href="#">
+                    <i class="fa fa-desktop "></i>
+                    <span th:text="${menu.menuName}">test</span>
+                    <span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li th:each="cmenu:${menu.childMenus}">
+                        <a th:href="${#httpServletRequest.getContextPath() + '/' + cmenu.menuUrl}"
+                           th:text="${cmenu.menuName}"><i class="fa fa-toggle-on"></i></a>
+                    </li>
+                </ul>
+            </li>
+
+        </ul>
+
+    </div>
+
+</nav>
+</div>
 </body>
 </html>
