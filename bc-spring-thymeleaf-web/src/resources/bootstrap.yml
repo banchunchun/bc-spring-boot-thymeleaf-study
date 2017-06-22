@@ -8,3 +8,18 @@ spring:
       label: master
       profile: ${spring.profiles.active:dev}
       uri: http://localhost:8888
+eureka:
+  client:
+    enabled: true
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 # Hystrix的超时时间改为5秒
+feign:
+  compression:
+    request:
+      mime-types: text/html,application/xml,application/json
+      min-request-size: 2048

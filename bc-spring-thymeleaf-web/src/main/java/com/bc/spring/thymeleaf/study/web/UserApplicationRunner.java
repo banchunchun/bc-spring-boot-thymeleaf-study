@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.hystrix.dashboard.EnableHystrixDashboard;
 import org.springframework.context.annotation.ComponentScan;
@@ -40,7 +41,9 @@ import java.util.logging.Logger;
 @EnableTransactionManagement
 @EnableSpringDataWebSupport
 @SpringBootApplication
+
 @ComponentScan(value = {"com.bc.spring.thymeleaf.study","org.spring.data.framework"})
+@EnableFeignClients(basePackages = "com.bc.spring.thymeleaf.study.web.microservice")
 //@EnableMongoRepositories(basePackages = "com.mamahao.ebiz.user.persist.repository.mongo",repositoryFactoryBeanClass = BaseMongoRepositoryFactoryBean.class)
 @EnableHystrix
 @EnableHystrixDashboard

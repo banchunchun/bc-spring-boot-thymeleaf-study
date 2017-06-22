@@ -35,7 +35,7 @@ public class RequestIdUtil {
         String parameterRequestId = request.getParameter(REQUEST_ID_KEY);
         String headerRequestId = request.getHeader(REQUEST_ID_KEY);
 
-        if (parameterRequestId == null || headerRequestId == null) {
+        if (parameterRequestId == null && headerRequestId == null) {
             logger.info("request parameter 和header 都没有requestId入参");
             requestId = UUID.randomUUID().toString();
         } else {

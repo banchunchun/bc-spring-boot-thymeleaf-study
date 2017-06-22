@@ -16,13 +16,29 @@
 	<logger name="javax.persistence" level="DEBUG" />
 	<logger name="com.mamahao" level="DEBUG" />
 
+	<!--<layout class="ch.qos.logback.classic.PatternLayout">-->
+		<!--<pattern>%d^|^%X{requestId}^|^%-5level^|^%logger{36}%M^|^%msg%n</pattern>-->
+	<!--</layout>-->
+
 	<springProfile name="local,dev,test,st">
+		<appender name="kafkaAppender" class="com.bc.logger.KafkaAppender">
+			<param name="topic" value="kafkatopic" />
+			<param name="brokerList" value="192.168.8.128:9092" />
+			<layout class="com.bc.logger.LogPatternLayout">
+				<!--<pattern>%d^|^%X{requestId}^|^%-5level^|^%logger{36}%M^|^%msg%n</pattern>-->
+				<pattern>%pattern{XXX系统} %n</pattern>
+			</layout>
+		</appender>
+
 		<root level="DEBUG">
 			<appender-ref ref="CONSOLE" />
+			<!--<appender-ref ref="consoleAppender" />-->
+			<!--<appender-ref ref="kafkaAppender" />-->
 		</root>
+
 	</springProfile>
 
-	<springProfile name="pre,pro,dev">
+	<springProfile name="pre,pro">
 		<appender name="kafkaAppender" class="com.bc.logger.KafkaAppender">
 			<param name="topic" value="kafkatopic" />
 			<param name="brokerList" value="192.168.8.128:9092" />
