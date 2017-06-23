@@ -7,6 +7,18 @@ spring:
       charset: UTF-8
       enabled: true
 
+###zipkin 相关
+  zipkin:
+    base-url: http://localhost:9411
+    service:
+      name: bc-thymeleaf
+  sleuth:
+    #监控开关
+    enabled: true
+    #采样率
+    sampler:
+      percentage: 1
+
 ##配置thymeleaf 模板
   thymeleaf:
     mode: HTML5
