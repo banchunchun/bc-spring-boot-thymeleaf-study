@@ -31,6 +31,6 @@
         也可在javabean 加上注解@Alias 来自定义别名， 例如： @Alias(user)
         <package name="com.dy.entity"/>
          -->
-        <!--<typeAlias alias="memberEntity" type="com.mamahao.ebiz.user.persist.entity.Member"/>-->
+        <!--<typeAlias alias="memberEntity" type="com.xxx.ebiz.user.persist.entity.Member"/>-->
     </typeAliases>
 </configuration>
